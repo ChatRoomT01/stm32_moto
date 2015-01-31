@@ -1,0 +1,16 @@
+..\OBJ\capture3.o: ..\HARDWARE\CAPTURE\capture3.c
+..\OBJ\capture3.o: ..\HARDWARE\CAPTURE\capture3.h
+..\OBJ\capture3.o: ..\SYSTEM\sys\sys.h
+..\OBJ\capture3.o: ..\USER\stm32f10x.h
+..\OBJ\capture3.o: ..\CORE\core_cm3.h
+..\OBJ\capture3.o: D:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+..\OBJ\capture3.o: ..\USER\system_stm32f10x.h
+..\OBJ\capture3.o: ..\USER\stm32f10x_conf.h
+..\OBJ\capture3.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
+..\OBJ\capture3.o: ..\USER\stm32f10x.h
+..\OBJ\capture3.o: ..\STM32F10x_FWLib\inc\stm32f10x_dac.h
+..\OBJ\capture3.o: ..\STM32F10x_FWLib\inc\stm32f10x_gpio.h
+..\OBJ\capture3.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
+..\OBJ\capture3.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
+..\OBJ\capture3.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
+..\OBJ\capture3.o: ..\STM32F10x_FWLib\inc\misc.h
