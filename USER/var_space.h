@@ -11,10 +11,20 @@ uint8_t getSendState(void);
 void setTxData(uint8_t data, uint8_t n);
 uint8_t getTxData(uint8_t n);
 
-void setTIM2Frequency(uint32_t capcnt);
+void setTIM2Period(uint32_t capcnt);
+uint16_t getTIM2Period(void);
+
+void setTIM3Period(uint32_t capcnt);
+uint16_t getTIM3Period(void);
+
+void addTIM2Counter(void);
+void clearTIM2Counter(void);
+void setTIM2Frequency(void);
 uint16_t getTIM2Frequency(void);
 
-void setTIM3Frequency(uint32_t capcnt);
+void addTIM3Counter(void);
+void clearTIM3Counter(void);
+void setTIM3Frequency(void);
 uint16_t getTIM3Frequency(void);
 
 #endif

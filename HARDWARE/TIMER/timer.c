@@ -26,7 +26,7 @@ void TIM4_Int_Init(u16 arr,u16 psc)
 		ENABLE  //使能
 		);
 	NVIC_InitStructure.NVIC_IRQChannel = TIM4_IRQn;  //TIM4中断
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;  //先占优先级0级
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
@@ -39,12 +39,12 @@ void TIM4_Int_Init(u16 arr,u16 psc)
 //这里时钟选择为APB1的2倍，而APB1为36M
 //arr：自动重装值。
 //psc：时钟预分频数
-//这里使用的是定时器5!
+//这里使用的是定时器5
 void TIM5_Int_Init(u16 arr,u16 psc)
 {
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
-
+	
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE); //时钟使能
 
 	TIM_TimeBaseStructure.TIM_Period = arr; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
@@ -58,9 +58,9 @@ void TIM5_Int_Init(u16 arr,u16 psc)
 		TIM_IT_Update ,
 		ENABLE  //使能
 		);
-	NVIC_InitStructure.NVIC_IRQChannel = TIM5_IRQn;  //TIM5中断
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;  //先占优先级0级
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
+	NVIC_InitStructure.NVIC_IRQChannel = TIM5_IRQn;  //TIM5溢出中断
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;  //先占优先级0级
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;  //从优先级3级
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 
@@ -68,12 +68,14 @@ void TIM5_Int_Init(u16 arr,u16 psc)
 							 
 }
 
+uint8_t TimerCounter = 0;
 
 void TIM4_IRQHandler(void)   //TIM4中断
 {
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 		{
-			USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
+			USART_ITConfig(USART2, USART_IT_TXE, ENABLE);	//发送数据
+// 			USART_ITConfig(USART1, USART_IT_TXE, ENABLE);	//发送数据
 		}
 	TIM_ClearITPendingBit(TIM4, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
 }
@@ -82,7 +84,8 @@ void TIM5_IRQHandler(void)   //TIM5中断
 {
 	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 		{
-			USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
+			setTIM3Frequency(); //高频测量方法
+			//setTIM3Frequency(); //高频测量方法
 		}
 	TIM_ClearITPendingBit(TIM5, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
 }

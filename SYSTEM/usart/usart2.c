@@ -1,10 +1,13 @@
 #include "usart2.h"
 #include "var_space.h"
+#include "math.h"
 
 //extern uint32_t TestData;
 
 void Dac1_Set_Vol(u16 vol);
 void Dac2_Set_Vol(u16 vol);
+uint16_t pretreatment0(void);
+uint16_t pretreatment1(void);
 
 //初始化IO 串口2 
 //bound:波特率
@@ -134,9 +137,23 @@ void send32B(uint32_t dat, uint8_t n)
 	}
 }
 
-uint8_t DacChannel = 0;	//DAC通道
-uint16_t DacValue =0;		//DAC输入值
-int8_t BitCounter = 0;		//数据下标位输入值
+//uint8_t DacChannel = 0;	//DAC通道
+//uint8_t DacStack[4] = {0};
+//uint16_t DacValue =0;		//DAC输入值
+//int8_t BitCounter = 0;		//数据下标位输入值
+uint16_t SendData0 = 0; //比较过后要发送的数据0
+uint16_t SendData1 = 0; //比较过后要发送的数据1
+//uint16_t PreData0 = 0; //前个数据0
+//uint16_t PreData1 = 0; //前个数据1
+uint16_t R[20]={165,330,495,660,825,990,1155,1320,1485,1650,1815,1980,2145,2310,2475,2640,2805,2970,3135,3300}; //DAC输出表
+#define StackLen 16
+uint16_t DataStack0[StackLen] = {0}; //滤波器数组
+uint8_t StackCursor0 = 0; //滤波器数组游标
+uint16_t DataStack1[StackLen] = {0}; //滤波器数组
+uint8_t StackCursor1 = 0; //滤波器数组游标
+uint8_t counter; //累加计数器
+uint32_t temp = 0; //累加总数
+uint16_t ave = 0; //滤波平均值
 
 void USART2_IRQHandler(void)                	//串口1中断服务程序
 	{
@@ -144,57 +161,107 @@ void USART2_IRQHandler(void)                	//串口1中断服务程序
 	if(USART_GetITStatus(USART2, USART_IT_RXNE) != RESET)  //接收中断(接收寄存器满中断)
 	{
 		Res =USART_ReceiveData(USART2);//(USART2->DR);	//读取接收到的数据 
-		if(Res != 0x00)
+		if(Res<=0x14 && Res >0)
 		{
-			switch (Res)
-			{
-				case 'M' :
-					DacChannel = 1; //DAC1数据
-					BitCounter = getDacLen() - 2; //报文长度 - 标志位
-					break;
-				case 'N' :
-					DacChannel = 2; //DAC2数据
-					BitCounter = getDacLen() - 2; //报文长度 - 标志位
-					break;
-				default: 	//处理数据组
-					if(BitCounter >= 0) //正在接收
-					{
-						DacValue += Res << (BitCounter * 4 ) ; //移位自加
-						BitCounter--;	//下标自减
-					}
-					else
-					{	//数据接收完成
-						switch (DacChannel) //判断通道几的数据
-						{
-							case 1 :
-								Dac1_Set_Vol(DacValue); //设定DAC值
-								break;
-							case 2 :
-								Dac2_Set_Vol(DacValue); //设定DAC值
-								break;
-							default:
-								break;
-						}
-					}
-					break;
-			}
+			Dac1_Set_Vol(R[Res - 0x01]); //设定DAC值;
 		}
+		else if(Res>0x20 && Res<=0x34)
+		{
+			Dac2_Set_Vol(R[Res - 0x21]); //设定DAC值;
+		}
+		else if (Res==0)
+		{
+			Dac1_Set_Vol(0); //关闭DAC1
+		}
+		else if (Res==0x20)
+		{
+			Dac2_Set_Vol(0); //关闭DAC2
+		}
+		
+		/* 以下报文方法废弃，但保留下来 */
+// 			switch (Res)
+// 			{
+// 				case 'M' :
+// 					DacChannel = 1; //DAC1数据
+// 					DacValue = 0;
+// 					break;
+// 				case 'N' :
+// 					DacChannel = 2; //DAC2数据
+// 					DacValue = 0;
+// 					break;
+// 				default: 	//处理数据组
+// 					if(BitCounter < 4 ) //正在接收
+// 					{
+// 						DacStack[BitCounter] = Res;
+// 						BitCounter++;	//下标自减
+// 					}
+// 					else
+// 					{	//数据接收完成
+// 						BitCounter = 0;
+// 						DacValue = DacStack[0]<<12 + DacStack[1]<<8 + DacStack[2]<<4 + DacStack[3];
+// 						switch (DacChannel) //判断通道几的数据
+// 						{
+// 							case 1 :
+// 								Dac1_Set_Vol(DacValue); //设定DAC值
+// 								break;
+// 							case 2 :
+// 								Dac2_Set_Vol(DacValue); //设定DAC值
+// 								break;
+// 							default:
+// 								break;
+// 						}
+// 					}
+// 					break;
+// 			}
 	}
 	
 	if(USART_GetITStatus(USART2, USART_IT_TXE) != RESET) //发送中断(发送寄存器空中断)
 	{
 		if(loopCount < getDataLen()) //正在发送
 		{
-			send16B(getTIM2Frequency(), getTIM3Frequency(), loopCount);
+			send16B(SendData0, SendData1, loopCount);
 			loopCount++;
 		}
 		else //发送完成
 		{
 			USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
 			loopCount = 0;
+			SendData0 = getTIM2Period();	//无滤波
+			SendData1 = getTIM3Frequency();
+//			DataStack0[StackCursor0] = getTIM2Period();	//有滤波
+//			SendData0 = pretreatment0(); //预处理
+//			DataStack1[StackCursor1] = getTIM3Frequency();
+//			SendData1 = pretreatment1(); //预处理
 		}
 	}
 	
 } 
 
+uint16_t pretreatment0(void)
+{
+	temp = 0;
+	ave = 0;
+	for(counter=0; counter<StackLen; counter++)
+	{
+		temp = temp+DataStack0[counter];
+	}
+	StackCursor0++;
+	StackCursor0 = (StackCursor0 % StackLen); //游标循环自加
+	ave = temp /StackLen;
+	return ave; //移位处理取平均
+}
+
+uint16_t pretreatment1(void)
+{
+	temp = 0;
+	ave = 0;
+	for(counter=0; counter<StackLen; counter++)
+	{
+		temp = temp+DataStack1[counter];
+	}										   
+	StackCursor1++;
+	StackCursor1 = (StackCursor1 % StackLen); //游标循环自加
+	ave = temp /StackLen;
+	return ave; //移位处理取平均
+}
 

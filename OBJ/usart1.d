@@ -10,6 +10,7 @@
 ..\OBJ\usart1.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
 ..\OBJ\usart1.o: ..\USER\stm32f10x.h
 ..\OBJ\usart1.o: ..\STM32F10x_FWLib\inc\stm32f10x_dac.h
+..\OBJ\usart1.o: ..\STM32F10x_FWLib\inc\stm32f10x_fsmc.h
 ..\OBJ\usart1.o: ..\STM32F10x_FWLib\inc\stm32f10x_gpio.h
 ..\OBJ\usart1.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
 ..\OBJ\usart1.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h

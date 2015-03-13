@@ -1,0 +1,19 @@
+..\OBJ\ili9325.o: ..\HARDWARE\LCD\ili9325.c
+..\OBJ\ili9325.o: ..\HARDWARE\LCD\ili9325.h
+..\OBJ\ili9325.o: ..\USER\stm32f10x.h
+..\OBJ\ili9325.o: ..\CORE\core_cm3.h
+..\OBJ\ili9325.o: E:\Program Files\ARM\RV31\INC\stdint.h
+..\OBJ\ili9325.o: ..\USER\system_stm32f10x.h
+..\OBJ\ili9325.o: ..\USER\stm32f10x_conf.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\stm32f10x_adc.h
+..\OBJ\ili9325.o: ..\USER\stm32f10x.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\stm32f10x_dac.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\stm32f10x_fsmc.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\stm32f10x_gpio.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\stm32f10x_rcc.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\stm32f10x_tim.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\stm32f10x_usart.h
+..\OBJ\ili9325.o: ..\STM32F10x_FWLib\inc\misc.h
+..\OBJ\ili9325.o: ..\HARDWARE\LCD\ascii.h
+..\OBJ\ili9325.o: ..\SYSTEM\delay\delay.h
+..\OBJ\ili9325.o: ..\SYSTEM\sys\sys.h
