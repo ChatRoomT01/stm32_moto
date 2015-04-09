@@ -20,13 +20,15 @@ void setTIM3Period(uint32_t capcnt);
 uint16_t getTIM3Period(void);
 
 void addTIM2Counter(void);
+uint16_t getTIM2Counter(void);
 void clearTIM2Counter(void);
-void setTIM2Frequency(void);
+void setTIM2Frequency(uint16_t sumcnt);
 uint16_t getTIM2Frequency(void);
 
 void addTIM3Counter(void);
+uint16_t getTIM3Counter(void);
 void clearTIM3Counter(void);
-void setTIM3Frequency(void);
+void setTIM3Frequency(uint16_t sumcnt);
 uint16_t getTIM3Frequency(void);
 
 //发送状态 1：单次发送  2：连续发送
@@ -123,15 +125,19 @@ void addTIM2Counter(void)
  	TIM2Counter ++; //计数频率
 }
 
+uint16_t getTIM2Counter(void)
+{
+ 	return TIM2Counter;
+}
+
 void clearTIM2Counter(void)
 {
 	TIM2Counter = 0; //清零计数器
 }
 
-void setTIM2Frequency(void)
+void setTIM2Frequency(uint16_t sumcnt)
 {
- 	TIM2Frequency = TIM2Counter * 20;
-	TIM2Counter = 0; //清零计数器
+ 	TIM2Frequency = sumcnt;
 }
 //高频 测频率法
 uint16_t getTIM2Frequency(void)
@@ -146,15 +152,19 @@ void addTIM3Counter(void)
  	TIM3Counter ++; //计数频率
 }
 
+uint16_t getTIM3Counter(void)
+{
+ 	return TIM3Counter;
+}
+
 void clearTIM3Counter(void)
 {
 	TIM3Counter = 0; //清零计数器
 }
 
-void setTIM3Frequency(void)
+void setTIM3Frequency(uint16_t sumcnt)
 {
- 	TIM3Frequency = TIM3Counter * 20;
-	TIM3Counter = 0; //清零计数器
+ 	TIM3Frequency = sumcnt;
 }
 //高频 测频率法
 uint16_t getTIM3Frequency(void)

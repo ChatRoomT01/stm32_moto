@@ -79,29 +79,24 @@
       <Books>
         <Book>
           <Number>0</Number>
-          <Title>Reference Manual</Title>
-          <Path>DATASHTS\ST\STM32F10xxx.PDF</Path>
+          <Title>7</Title>
+          <Path>DATASHTS\ST\STM32F105</Path>
         </Book>
         <Book>
           <Number>1</Number>
-          <Title>Technical Reference Manual</Title>
-          <Path>datashts\arm\cortex_m3\r1p1\DDI0337E_CORTEX_M3_R1P1_TRM.PDF</Path>
-        </Book>
-        <Book>
-          <Number>2</Number>
-          <Title>Generic User Guide</Title>
-          <Path>datashts\arm\cortex_m3\r2p1\DUI0552A_CORTEX_M3_DGUG.PDF</Path>
+          <Title>Reference Manual</Title>
+          <Path>DATASHTS\ST\STM32F10xxx.PDF</Path>
         </Book>
       </Books>
       <DllOpt>
         <SimDllName>SARMCM3.DLL</SimDllName>
-        <SimDllArguments>-MPU</SimDllArguments>
+        <SimDllArguments></SimDllArguments>
         <SimDlgDllName>DARMSTM.DLL</SimDlgDllName>
-        <SimDlgDllArguments>-pSTM32F103ZG</SimDlgDllArguments>
+        <SimDlgDllArguments>-pSTM32F107VC</SimDlgDllArguments>
         <TargetDllName>SARMCM3.DLL</TargetDllName>
-        <TargetDllArguments>-MPU</TargetDllArguments>
+        <TargetDllArguments></TargetDllArguments>
         <TargetDlgDllName>TARMSTM.DLL</TargetDlgDllName>
-        <TargetDlgDllArguments>-pSTM32F103ZG</TargetDlgDllArguments>
+        <TargetDlgDllArguments>-pSTM32F107VC</TargetDlgDllArguments>
       </DllOpt>
       <DebugOpt>
         <uSim>0</uSim>
@@ -176,9 +171,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>251</LineNumber>
+          <LineNumber>163</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134228226</Address>
+          <Address>134228234</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -186,22 +181,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename></Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\test01\usart2\251</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>265</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134228124</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename></Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\test01\usart2\265</Expression>
+          <Expression>\\test01\usart2\163</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -219,6 +199,11 @@
           <count>2</count>
           <WinNumber>1</WinNumber>
           <ItemText>SendData1</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Res</ItemText>
         </Ww>
       </WatchWindow1>
       <DebugFlag>
@@ -244,7 +229,7 @@
         <aSer4>0</aSer4>
         <StkLoc>0</StkLoc>
         <TrcWin>0</TrcWin>
-        <newCpu>0</newCpu>
+        <newCpu>1</newCpu>
         <uProt>0</uProt>
       </DebugFlag>
       <LintExecutable></LintExecutable>
@@ -261,12 +246,12 @@
       <GroupNumber>1</GroupNumber>
       <FileNumber>1</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>13</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>16</TopLine>
-      <CurrentLine>27</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>22</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -305,10 +290,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>33</ColumnNumber>
+      <ColumnNumber>20</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>139</TopLine>
-      <CurrentLine>156</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>3</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\var_space.c</PathWithFileName>
       <FilenameWithoutPath>var_space.c</FilenameWithoutPath>
@@ -363,8 +348,8 @@
       <Focus>0</Focus>
       <ColumnNumber>38</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>71</TopLine>
-      <CurrentLine>93</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\STM32F10x_FWLib\src\misc.c</PathWithFileName>
       <FilenameWithoutPath>misc.c</FilenameWithoutPath>
@@ -655,10 +640,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>34</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>977</TopLine>
+      <CurrentLine>985</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\STM32F10x_FWLib\src\stm32f10x_usart.c</PathWithFileName>
       <FilenameWithoutPath>stm32f10x_usart.c</FilenameWithoutPath>
@@ -690,10 +675,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>19</ColumnNumber>
+      <ColumnNumber>76</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>70</TopLine>
-      <CurrentLine>87</CurrentLine>
+      <TopLine>91</TopLine>
+      <CurrentLine>100</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\HARDWARE\TIMER\timer.c</PathWithFileName>
       <FilenameWithoutPath>timer.c</FilenameWithoutPath>
@@ -718,10 +703,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>31</TopLine>
+      <CurrentLine>31</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\HARDWARE\DAC\dac.c</PathWithFileName>
       <FilenameWithoutPath>dac.c</FilenameWithoutPath>
@@ -732,7 +717,7 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>111</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>0</TopLine>
       <CurrentLine>0</CurrentLine>
@@ -746,10 +731,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>26</ColumnNumber>
+      <ColumnNumber>76</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>63</TopLine>
-      <CurrentLine>80</CurrentLine>
+      <TopLine>66</TopLine>
+      <CurrentLine>70</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\HARDWARE\CAPTURE\capture2.c</PathWithFileName>
       <FilenameWithoutPath>capture2.c</FilenameWithoutPath>
@@ -762,7 +747,7 @@
       <Focus>0</Focus>
       <ColumnNumber>60</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>61</TopLine>
+      <TopLine>69</TopLine>
       <CurrentLine>78</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\HARDWARE\CAPTURE\capture3re.c</PathWithFileName>
@@ -811,8 +796,8 @@
       <Focus>0</Focus>
       <ColumnNumber>21</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>18</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\SYSTEM\sys\sys.c</PathWithFileName>
       <FilenameWithoutPath>sys.c</FilenameWithoutPath>
@@ -823,10 +808,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>6</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>4</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\SYSTEM\delay\delay.c</PathWithFileName>
       <FilenameWithoutPath>delay.c</FilenameWithoutPath>
@@ -837,7 +822,7 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>39</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>1</TopLine>
       <CurrentLine>1</CurrentLine>
@@ -852,37 +837,31 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>8</ActiveTab>
+      <ActiveTab>1</ActiveTab>
       <Documents>
         <Doc>
           <Name>..\SYSTEM\usart\usart2.c</Name>
-          <ColumnNumber>39</ColumnNumber>
+          <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\var_space.c</Name>
-          <ColumnNumber>33</ColumnNumber>
-          <TopLine>139</TopLine>
-          <CurrentLine>156</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>.\main.c</Name>
-          <ColumnNumber>13</ColumnNumber>
-          <TopLine>16</TopLine>
-          <CurrentLine>27</CurrentLine>
+          <ColumnNumber>5</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>22</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\HARDWARE\TIMER\timer.c</Name>
-          <ColumnNumber>19</ColumnNumber>
-          <TopLine>70</TopLine>
-          <CurrentLine>87</CurrentLine>
+          <Name>..\SYSTEM\delay\delay.c</Name>
+          <ColumnNumber>6</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>4</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\HARDWARE\CAPTURE\capture3re.c</Name>
-          <ColumnNumber>60</ColumnNumber>
-          <TopLine>61</TopLine>
-          <CurrentLine>78</CurrentLine>
+          <Name>..\STM32F10x_FWLib\src\stm32f10x_usart.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>977</TopLine>
+          <CurrentLine>985</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\CORE\startup_stm32f10x_hd.s</Name>
@@ -891,22 +870,34 @@
           <CurrentLine>151</CurrentLine>
         </Doc>
         <Doc>
+          <Name>..\HARDWARE\TIMER\timer.c</Name>
+          <ColumnNumber>76</ColumnNumber>
+          <TopLine>91</TopLine>
+          <CurrentLine>100</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\HARDWARE\CAPTURE\capture3re.c</Name>
+          <ColumnNumber>60</ColumnNumber>
+          <TopLine>69</TopLine>
+          <CurrentLine>78</CurrentLine>
+        </Doc>
+        <Doc>
           <Name>..\HARDWARE\CAPTURE\capture2.c</Name>
-          <ColumnNumber>26</ColumnNumber>
-          <TopLine>63</TopLine>
-          <CurrentLine>80</CurrentLine>
+          <ColumnNumber>76</ColumnNumber>
+          <TopLine>66</TopLine>
+          <CurrentLine>70</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\SYSTEM\sys\sys.c</Name>
-          <ColumnNumber>21</ColumnNumber>
+          <Name>.\var_space.c</Name>
+          <ColumnNumber>20</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>18</CurrentLine>
+          <CurrentLine>3</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\STM32F10x_FWLib\src\misc.c</Name>
-          <ColumnNumber>38</ColumnNumber>
-          <TopLine>71</TopLine>
-          <CurrentLine>93</CurrentLine>
+          <Name>..\HARDWARE\DAC\dac.c</Name>
+          <ColumnNumber>5</ColumnNumber>
+          <TopLine>31</TopLine>
+          <CurrentLine>31</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

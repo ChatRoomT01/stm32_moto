@@ -23,4 +23,3 @@
 ..\OBJ\main.o: ..\HARDWARE\CAPTURE\capture3re.h
 ..\OBJ\main.o: var_space.h
 ..\OBJ\main.o: ..\HARDWARE\DAC\dac.h
-..\OBJ\main.o: ..\HARDWARE\LCD\ili9325.h

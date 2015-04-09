@@ -52,8 +52,8 @@ uint16_t  TIM2CH2_CAPTURE_CNT=0;	//捕获计数溢出次数
 uint16_t	TIM2CH2_CAPTURE_VAL;			//当前输入捕获值
 uint8_t TIM2CH2_CAPTURE_SAT=0; //当前捕获状态 0为等待上升沿 1为等待下降沿
 
-#define SquareLen 60	//方波长度
-uint8_t square_counter=0; //方波计数器，每60个方波为一周
+#define SquareLen 10	//方波长度
+uint8_t square_counter=0; //方波计数器，每SquareLen个方波为一周
 uint32_t PeriodGroup[SquareLen]={0};
 uint32_t avePeriod=0;
 
@@ -67,6 +67,10 @@ void TIM2_IRQHandler(void)
 	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) 
 	{
 		TIM2CH2_CAPTURE_CNT++;	//溢出次数计数
+		if(TIM2CH2_CAPTURE_CNT > 64)
+		{
+			setTIM2Period(72000000);	//电机停机，上升沿无法捕获,手动置0
+		}
 		TIM2CH2_CAPTURE_VAL=0XFFFF;
 	}
 	
@@ -84,7 +88,7 @@ void TIM2_IRQHandler(void)
 		}
 		else
 		{
-			addPeriodGroupN(TIM2CH2_CAPTURE_VAL + TIM2CH2_CAPTURE_CNT*65536, square_counter); //数据添加第square_counter位
+			addPeriodGroupN((TIM2CH2_CAPTURE_VAL + TIM2CH2_CAPTURE_CNT*65536), square_counter); //数据添加第square_counter位
 			square_counter++;
 		}
 		

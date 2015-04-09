@@ -1,6 +1,7 @@
 #include "timer.h"
 #include "var_space.h"
 
+uint16_t sumShiftFilter(void);
 
 //通用定时器中断初始化
 //这里时钟选择为APB1的2倍，而APB1为36M
@@ -15,11 +16,11 @@ void TIM4_Int_Init(u16 arr,u16 psc)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE); //时钟使能
 
 	TIM_TimeBaseStructure.TIM_Period = arr; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
-	TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
+	TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
 	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
- 
+
 	TIM_ITConfig(  //使能或者失能指定的TIM中断
 		TIM4, //TIM4
 		TIM_IT_Update ,
@@ -32,7 +33,7 @@ void TIM4_Int_Init(u16 arr,u16 psc)
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 
 	TIM_Cmd(TIM4, ENABLE);  //使能TIMx外设
-							 
+
 }
 
 //通用定时器中断初始化
@@ -44,15 +45,15 @@ void TIM5_Int_Init(u16 arr,u16 psc)
 {
   TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
-	
+
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE); //时钟使能
 
 	TIM_TimeBaseStructure.TIM_Period = arr; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
-	TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
+	TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
 	TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
- 
+
 	TIM_ITConfig(  //使能或者失能指定的TIM中断
 		TIM5, //TIM5
 		TIM_IT_Update ,
@@ -65,32 +66,47 @@ void TIM5_Int_Init(u16 arr,u16 psc)
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 
 	TIM_Cmd(TIM5, ENABLE);  //使能TIMx外设
-							 
+
 }
 
 uint8_t TimerCounter = 0;
 
 void TIM4_IRQHandler(void)   //TIM4中断
 {
-	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
+	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源
 		{
 			USART_ITConfig(USART2, USART_IT_TXE, ENABLE);	//发送数据
 // 			USART_ITConfig(USART1, USART_IT_TXE, ENABLE);	//发送数据
 		}
-	TIM_ClearITPendingBit(TIM4, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
+	TIM_ClearITPendingBit(TIM4, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源
 }
 
 void TIM5_IRQHandler(void)   //TIM5中断
 {
-	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
+	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源
 		{
-			setTIM3Frequency(); //高频测量方法
-			//setTIM3Frequency(); //高频测量方法
+			setTIM3Frequency(sumShiftFilter()); //累加滑动滤波
+			clearTIM3Counter(); //清除累加器
 		}
-	TIM_ClearITPendingBit(TIM5, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源 
+	TIM_ClearITPendingBit(TIM5, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源
 }
 
+uint8_t ShiftFilterCursor = 0;  //滤波器游标
+uint16_t CounterGroup[20]={0};
 
+uint16_t sumShiftFilter(void)
+{
+    uint8_t i = 0;
+    uint16_t sumTemp = 0;
+    CounterGroup[ShiftFilterCursor] = getTIM3Counter();
+    ShiftFilterCursor++;
+    ShiftFilterCursor = (ShiftFilterCursor % 20); //游标循环自加
+    for(i=0; i<20; i++)
+    {
+        sumTemp += CounterGroup[i];
+    }
+    return sumTemp;
+}
 
 
 

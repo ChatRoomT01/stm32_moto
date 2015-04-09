@@ -18,13 +18,15 @@ void setTIM3Period(uint32_t capcnt);
 uint16_t getTIM3Period(void);
 
 void addTIM2Counter(void);
+uint16_t getTIM3Counter(void);
 void clearTIM2Counter(void);
-void setTIM2Frequency(void);
+void setTIM2Frequency(uint16_t sumcnt);
 uint16_t getTIM2Frequency(void);
 
 void addTIM3Counter(void);
+uint16_t getTIM3Counter(void);
 void clearTIM3Counter(void);
-void setTIM3Frequency(void);
+void setTIM3Frequency(uint16_t sumcnt);
 uint16_t getTIM3Frequency(void);
 
 #endif

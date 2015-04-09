@@ -45,9 +45,9 @@ void uart2_init(u32 bound){
    //USART 初始化设置
 
 	USART_InitStructure.USART_BaudRate = bound;//一般设置为9600;
-	USART_InitStructure.USART_WordLength = USART_WordLength_8b;//字长为8位数据格式
+	USART_InitStructure.USART_WordLength = USART_WordLength_9b;//字长为8位数据格式
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;//一个停止位
-	USART_InitStructure.USART_Parity = USART_Parity_No;//无奇偶校验位
+	USART_InitStructure.USART_Parity = USART_Parity_Even;//无奇偶校验位
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;//无硬件数据流控制
 	USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;	//收发模式
 
@@ -177,42 +177,6 @@ void USART2_IRQHandler(void)                	//串口1中断服务程序
 		{
 			Dac2_Set_Vol(0); //关闭DAC2
 		}
-		
-		/* 以下报文方法废弃，但保留下来 */
-// 			switch (Res)
-// 			{
-// 				case 'M' :
-// 					DacChannel = 1; //DAC1数据
-// 					DacValue = 0;
-// 					break;
-// 				case 'N' :
-// 					DacChannel = 2; //DAC2数据
-// 					DacValue = 0;
-// 					break;
-// 				default: 	//处理数据组
-// 					if(BitCounter < 4 ) //正在接收
-// 					{
-// 						DacStack[BitCounter] = Res;
-// 						BitCounter++;	//下标自减
-// 					}
-// 					else
-// 					{	//数据接收完成
-// 						BitCounter = 0;
-// 						DacValue = DacStack[0]<<12 + DacStack[1]<<8 + DacStack[2]<<4 + DacStack[3];
-// 						switch (DacChannel) //判断通道几的数据
-// 						{
-// 							case 1 :
-// 								Dac1_Set_Vol(DacValue); //设定DAC值
-// 								break;
-// 							case 2 :
-// 								Dac2_Set_Vol(DacValue); //设定DAC值
-// 								break;
-// 							default:
-// 								break;
-// 						}
-// 					}
-// 					break;
-// 			}
 	}
 	
 	if(USART_GetITStatus(USART2, USART_IT_TXE) != RESET) //发送中断(发送寄存器空中断)
