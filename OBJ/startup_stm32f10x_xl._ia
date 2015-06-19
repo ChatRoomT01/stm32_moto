@@ -1,5 +1,0 @@
---cpu Cortex-M3 -g --apcs=interwork 
--I D:\Keil\ARM\RV31\INC 
--I D:\Keil\ARM\CMSIS\Include 
--I D:\Keil\ARM\Inc\ST\STM32F10x 
---list ".\startup_stm32f10x_xl.lst" --xref -o "..\OBJ\startup_stm32f10x_xl.o" --depend "..\OBJ\startup_stm32f10x_xl.d" "..\CORE\startup_stm32f10x_xl.s"

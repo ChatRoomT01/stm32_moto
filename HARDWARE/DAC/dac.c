@@ -31,8 +31,9 @@ void Dac1_Init(void)
 void Dac1_Set_Vol(u16 vol)
 {
 	float temp=vol;
-	temp/=1000;
-	temp=temp*4096/3.3;
+	temp/=1000.000;
+	temp=temp*4095/3.3;
+	if(temp>4095) temp=4095;
 	DAC_SetChannel1Data(DAC_Align_12b_R,temp);//12位右对齐数据格式设置DAC值
 }
 
@@ -67,8 +68,9 @@ void Dac2_Init(void)
 void Dac2_Set_Vol(u16 vol)
 {
 	float temp=vol;
-	temp/=1000;
-	temp=temp*4096/3.3;
+	temp/=1000.000;
+	temp=temp*4095/3.3;
+	if(temp>4095) temp=4095;
 	DAC_SetChannel2Data(DAC_Align_12b_R,temp);//12位右对齐数据格式设置DAC值
 }
 

@@ -17,7 +17,7 @@ int main(void)
 	
 	//初始化芯片硬件
  	TIM5_Int_Init(499,7200-1);	//定时器设置 7200分频 10kHz 定时500单位 = 50ms
-	TIM4_Int_Init(4999,7200-1);	//定时器设置 72分频 1MHz 定时5000单位 = 5ms
+	TIM4_Int_Init(4999,72-1);	//定时器设置 72分频 1MHz 定时5000单位 = 5ms
 	TIM2_Cap_Init(0XFFFF,0);		//TIM2以72Mhz频率计数
 	TIM3RE_Cap_Init(0XFFFF,0);		//TIM3以72Mhz频率计数
 	uart2_init(115200);	 							//串口初始化为115200
