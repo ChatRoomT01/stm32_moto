@@ -139,7 +139,7 @@
             <RestoreTracepoints>0</RestoreTracepoints>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>14</TargetSelection>
+          <TargetSelection>13</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -350,7 +350,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Libraries;..\STM32F10x_FWLib\inc;..\USER;..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\ADC;..\HARDWARE\DAC;..\HARDWARE\LED;..\HARDWARE\TIMER;..\HARDWARE\CAPTURE;..\HARDWARE\LCD</IncludePath>
+              <IncludePath>.\Libraries;..\STM32F10x_FWLib\inc;..\USER;..\CORE;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\DAC;..\HARDWARE\LED;..\HARDWARE\TIMER;..\HARDWARE\CAPTURE;..\HARDWARE\DMA</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -557,19 +557,9 @@
               <FilePath>..\HARDWARE\TIMER\timer.c</FilePath>
             </File>
             <File>
-              <FileName>pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\PWM\pwm.c</FilePath>
-            </File>
-            <File>
               <FileName>dac.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\DAC\dac.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\ADC\adc.c</FilePath>
             </File>
             <File>
               <FileName>capture2.c</FileName>
@@ -587,9 +577,9 @@
               <FilePath>..\HARDWARE\LED\led.c</FilePath>
             </File>
             <File>
-              <FileName>ili9325.c</FileName>
+              <FileName>dma.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\LCD\ili9325.c</FilePath>
+              <FilePath>..\HARDWARE\DMA\dma.c</FilePath>
             </File>
           </Files>
         </Group>

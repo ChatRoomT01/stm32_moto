@@ -1,7 +1,12 @@
 #include "timer.h"
+#include "dma.h"
 #include "var_space.h"
 
 uint16_t sumShiftFilter(void);
+uint16_t pretreatment0(void);
+uint16_t pretreatment1(void);
+
+extern u8 SendBuff[];
 
 //通用定时器中断初始化
 //这里时钟选择为APB1的2倍，而APB1为36M
@@ -69,14 +74,37 @@ void TIM5_Int_Init(u16 arr,u16 psc)
 
 }
 
-uint8_t TimerCounter = 0;
+uint8_t HexTable[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};   //16进制字符表
+
+#define StackLen 16
+uint16_t SendData0 = 0; //比较过后要发送的数据0
+uint16_t SendData1 = 0; //比较过后要发送的数据1
+uint16_t DataStack0[StackLen] = {0}; //滤波器数组
+uint8_t StackCursor0 = 0; //滤波器数组游标
+uint16_t DataStack1[StackLen] = {0}; //滤波器数组
+uint8_t StackCursor1 = 0; //滤波器数组游标
 
 void TIM4_IRQHandler(void)   //TIM4中断
 {
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源
 		{
-			USART_ITConfig(USART2, USART_IT_TXE, ENABLE);	//发送数据
-// 			USART_ITConfig(USART1, USART_IT_TXE, ENABLE);	//发送数据
+			
+			SendData0 = getTIM2Period();	//无滤波
+			SendData1 = getTIM3Frequency();
+//			DataStack0[StackCursor0] = getTIM2Period();	//有滤波
+//			SendData0 = pretreatment0(); //预处理
+//			DataStack1[StackCursor1] = getTIM3Frequency();
+//			SendData1 = pretreatment1(); //预处理
+			//数据装载
+			SendBuff[1] = HexTable[(SendData0>>12)&0x0f];
+			SendBuff[2] = HexTable[(SendData0>>8)&0x0f];
+			SendBuff[3] = HexTable[(SendData0>>4)&0x0f];
+			SendBuff[4] = HexTable[(SendData0)&0x0f];
+			SendBuff[6] = HexTable[(SendData1>>12)&0x0f];
+			SendBuff[7] = HexTable[(SendData1>>8)&0x0f];
+			SendBuff[8] = HexTable[(SendData1>>4)&0x0f];
+			SendBuff[9] = HexTable[(SendData1)&0x0f];
+			DMA_USART_Enable(DMA1_Channel7);
 		}
 	TIM_ClearITPendingBit(TIM4, TIM_IT_Update  );  //清除TIMx的中断待处理位:TIM 中断源
 }
@@ -108,7 +136,36 @@ uint16_t sumShiftFilter(void)
     return sumTemp;
 }
 
+//预处理函数（用于滑动平均滤波），窗口大小：StackLen
+uint16_t pretreatment0(void)
+{
+	uint32_t temp = 0;
+	uint16_t ave = 0;
+	uint8_t counter;
+	for(counter=0; counter<StackLen; counter++)
+	{
+		temp = temp+DataStack0[counter];
+	}
+	StackCursor0++;
+	StackCursor0 = (StackCursor0 % StackLen); //游标循环自加
+	ave = temp /StackLen;
+	return ave; //移位处理取平均
+}
 
+uint16_t pretreatment1(void)
+{
+	uint32_t temp = 0;
+	uint16_t ave = 0;
+	uint8_t counter;
+	for(counter=0; counter<StackLen; counter++)
+	{
+		temp = temp+DataStack1[counter];
+	}										   
+	StackCursor1++;
+	StackCursor1 = (StackCursor1 % StackLen); //游标循环自加
+	ave = temp /StackLen;
+	return ave; //移位处理取平均
+}
 
 
 

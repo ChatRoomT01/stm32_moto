@@ -11,11 +11,11 @@ u16 DMA1_MEM_LEN;//保存DMA每次数据传送的长度
 //cpar:外设地址
 //cmar:存储器地址
 //cndtr:数据传输量 
-void DMA_Config(DMA_Channel_TypeDef* DMA_CHx,u32 cpar,u32 cmar,u16 cndtr)
+void DMA_USART_Config(DMA_Channel_TypeDef* DMA_CHx,u32 cpar,u32 cmar,u16 cndtr)
 {
- 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);	//使能DMA传输
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);	//使能DMA传输
 	
-    DMA_DeInit(DMA_CHx);   //将DMA的通道1寄存器重设为缺省值
+  DMA_DeInit(DMA_CHx);   //将DMA的通道1寄存器重设为缺省值
 	DMA1_MEM_LEN=cndtr;
 	DMA_InitStructure.DMA_PeripheralBaseAddr = cpar;  //DMA外设ADC基地址
 	DMA_InitStructure.DMA_MemoryBaseAddr = cmar;  //DMA内存基地址
@@ -31,11 +31,12 @@ void DMA_Config(DMA_Channel_TypeDef* DMA_CHx,u32 cpar,u32 cmar,u16 cndtr)
 	DMA_Init(DMA_CHx, &DMA_InitStructure);  //根据DMA_InitStruct中指定的参数初始化DMA的通道USART1_Tx_DMA_Channel所标识的寄存器
 	  	
 } 
+
 //开启一次DMA传输
-void DMA_Enable(DMA_Channel_TypeDef*DMA_CHx)
+void DMA_USART_Enable(DMA_Channel_TypeDef* DMA_CHx)
 { 
 	DMA_Cmd(DMA_CHx, DISABLE );  //关闭USART1 TX DMA1 所指示的通道      
- 	DMA_SetCurrDataCounter(DMA1_Channel4,DMA1_MEM_LEN);//DMA通道的DMA缓存的大小
+ 	DMA_SetCurrDataCounter(DMA_CHx, DMA1_MEM_LEN);//DMA通道的DMA缓存的大小
  	DMA_Cmd(DMA_CHx, ENABLE);  //使能USART1 TX DMA1 所指示的通道 
 }	  
 
