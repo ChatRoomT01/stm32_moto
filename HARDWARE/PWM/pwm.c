@@ -5,7 +5,7 @@
 //psc£ºÊ±ÖÓÔ¤·ÖÆµÊý
 void TIM1_PWM_Init(u16 arr,u16 psc)
 {  
-	 GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitTypeDef GPIO_InitStructure;
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 

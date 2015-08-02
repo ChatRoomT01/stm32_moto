@@ -2,10 +2,13 @@
 #include "dma.h"
 #include "var_space.h"
 
+
 uint16_t sumShiftFilter(void);
 uint16_t pretreatment0(void);
 uint16_t pretreatment1(void);
+extern uint16_t getPeriod(uint32_t );
 
+uint32_t getAveragePeriod(void);
 extern u8 SendBuff[];
 
 //通用定时器中断初始化
@@ -15,7 +18,7 @@ extern u8 SendBuff[];
 //这里使用的是定时器4!
 void TIM4_Int_Init(u16 arr,u16 psc)
 {
-  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, ENABLE); //时钟使能
@@ -73,6 +76,7 @@ void TIM5_Int_Init(u16 arr,u16 psc)
 	TIM_Cmd(TIM5, ENABLE);  //使能TIMx外设
 
 }
+
 
 uint8_t HexTable[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};   //16进制字符表
 

@@ -33,7 +33,12 @@ void TIM2_Cap_Init(u16 arr,u16 psc)
 	TIM2_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI; //映射到TI1上
 	TIM2_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;	 //配置输入分频,不分频 
 	TIM2_ICInitStructure.TIM_ICFilter = 0x00;//IC1F=0000 配置输入滤波器 不滤波
-	TIM_ICInit(TIM2, &TIM2_ICInitStructure);
+	//TIM_ICInit(TIM2, &TIM2_ICInitStructure);
+	TIM_PWMIConfig(TIM2, &TIM2_ICInitStructure);                 //根据参数配置TIM外设信息
+	
+	TIM_SelectInputTrigger(TIM2, TIM_TS_TI2FP2);
+	TIM_SelectSlaveMode(TIM2, TIM_SlaveMode_Reset);//TIM从模式：触发信号的上升沿重新初始化计数器和触发寄存器的更新事件
+	//TIM_SelectMasterSlaveMode(TIM2, TIM_MasterSlaveMode_Enable); //启动定时器的被动触发
 	
 	//中断分组初始化
 	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;  //TIM2中断
@@ -42,7 +47,7 @@ void TIM2_Cap_Init(u16 arr,u16 psc)
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器 
 	
-	TIM_ITConfig(TIM2,TIM_IT_Update|TIM_IT_CC2 ,ENABLE);//允许更新中断 ,允许CC1IE捕获中断	
+	TIM_ITConfig(TIM2,TIM_IT_CC2|TIM_IT_Update  ,ENABLE);//允许更新中断 ,允许CC1IE捕获中断	
 	
 	TIM_Cmd(TIM2,ENABLE ); 	//使能定时器2
  
@@ -55,7 +60,7 @@ uint8_t TIM2CH2_CAPTURE_SAT=0; //当前捕获状态 0为等待上升沿 1为等待下降沿
 #define SquareLen 10	//方波长度
 uint8_t square_counter=0; //方波计数器，每SquareLen个方波为一周
 uint32_t PeriodGroup[SquareLen]={0};
-uint32_t avePeriod=0;
+float avePeriod=0;
 
 void addPeriodGroupN(uint32_t capcnt, uint8_t n);
 uint32_t getAveragePeriod(void);
@@ -63,17 +68,6 @@ uint32_t getAveragePeriod(void);
 //定时器2中断服务程序	 
 void TIM2_IRQHandler(void)
 { 
-	//判断是否为更新中断
-	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) 
-	{
-		TIM2CH2_CAPTURE_CNT++;	//溢出次数计数
-		if(TIM2CH2_CAPTURE_CNT > 64)
-		{
-			setTIM2Period(72000000);	//电机停机，上升沿无法捕获,手动置0
-		}
-		TIM2CH2_CAPTURE_VAL=0XFFFF;
-	}
-	
 	//判断是否为捕获中断
  	if (TIM_GetITStatus(TIM2, TIM_IT_CC2) != RESET) //判断是否为捕获中断
 	{
@@ -88,16 +82,27 @@ void TIM2_IRQHandler(void)
 		}
 		else
 		{
-			addPeriodGroupN((TIM2CH2_CAPTURE_VAL + TIM2CH2_CAPTURE_CNT*65536), square_counter); //数据添加第square_counter位
+			addPeriodGroupN(TIM2CH2_CAPTURE_VAL+TIM2CH2_CAPTURE_CNT*65536, square_counter); //数据添加第square_counter位
 			square_counter++;
 		}
 		
 		TIM2CH2_CAPTURE_CNT = 0; //捕获下个上升沿，停止计数
 		TIM2CH2_CAPTURE_VAL = 0;	//数据清空准备下次捕捉计数
-		TIM_SetCounter(TIM2,0);
+		//TIM_SetCounter(TIM2,0);
+		TIM_ClearITPendingBit(TIM2, TIM_IT_CC2|TIM_IT_Update); //清除中断标志位
 	}
-	
- 	TIM_ClearITPendingBit(TIM2, TIM_IT_CC2|TIM_IT_Update); //清除中断标志位
+	//判断是否为更新中断
+	if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) 
+	{
+		TIM2CH2_CAPTURE_CNT++;	//溢出次数计数
+		if(TIM2CH2_CAPTURE_CNT > 64)
+		{
+			setTIM2Period(72000000);	//电机停机，上升沿无法捕获,手动置0
+		}
+		//TIM2CH2_CAPTURE_VAL=0XFFFF;
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update); //清除中断标志位
+	}
+ 	
  
 }
 
@@ -116,4 +121,10 @@ uint32_t getAveragePeriod(void)
 		temp += PeriodGroup[i];
 	}
 	return (uint32_t)(temp/SquareLen);
+}
+uint32_t getPeriod(uint32_t a)
+{
+	return PeriodGroup[a]/10;
+	
+	
 }

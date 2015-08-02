@@ -96,9 +96,9 @@ uint8_t getTxData(uint8_t n)
 
 /***********************************************************/
 //TIM2捕获周期
-void setTIM2Period(uint32_t capcnt)
+void setTIM2Period( uint32_t capcnt)
 {
- 	TIM2Period = (72000000-1) / capcnt; //计数频率
+ 	TIM2Period = (72000000 -1)/capcnt; //计数频率
 }
 //低频 测周期法
 uint16_t getTIM2Period(void)

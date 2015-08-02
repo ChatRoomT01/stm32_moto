@@ -10,6 +10,7 @@
 #include "dac.h"
 #include "dma.h"
 
+
 u8 SendBuff[10];
 
 int main(void)
@@ -33,6 +34,8 @@ int main(void)
 	//初始化主板硬件
 	Dac1_Set_Vol(0);
 	Dac2_Set_Vol(0);
+	
+	
 	
 	while(1)
 	{
